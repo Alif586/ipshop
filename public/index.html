@@ -5,415 +5,407 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>পেমেন্ট রসিদ | Proxy Shop</title>
     <style>
-        /* বেসিক রিসেট এবং ফন্ট */
+        /* বেসিক রিসেট এবং ভেরিয়েবল */
         :root {
-            --primary-color: #6a11cb;
-            --secondary-color: #2575fc;
-            --accent-color: #ff4b1f;
-            --text-dark: #333;
-            --text-light: #666;
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary-color: #ec4899;
+            --accent-color: #f59e0b;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
             --white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Hind Siliguri', Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', 'Segoe UI', Arial, sans-serif; }
         
         body {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
+            background-color: #f3f4f6;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            animation: gradientBG 15s ease infinite;
+            /* আধুনিক ব্যাকগ্রাউন্ড */
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* মেইন কন্টেইনার ডিজাইন */
+        /* মেইন কন্টেইনার */
         .invoice-container {
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
             border-radius: 24px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-lg);
             width: 100%;
-            max-width: 480px;
+            max-width: 440px;
             overflow: hidden;
             position: relative;
-            transform: translateY(20px);
+            transform: translateY(30px);
             opacity: 0;
-            animation: slideUp 0.6s forwards;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes slideUp {
+        @keyframes slideUpFade {
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* হেডার ডিজাইন */
         .header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 40px 30px;
+            padding: 35px 25px;
             text-align: center;
             position: relative;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
             overflow: hidden;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            margin-bottom: 20px;
         }
 
-        /* হেডার ডেকোরেশন */
-        .header::before {
+        /* হেডার ব্যাকগ্রাউন্ড ডেকোরেশন */
+        .header::after {
             content: '';
             position: absolute;
             top: -50%;
-            left: -50%;
+            right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
-            animation: rotate 10s linear infinite;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: spin 20s linear infinite;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .header h1 { font-size: 28px; margin-bottom: 5px; position: relative; z-index: 2; }
-        .header p { font-size: 14px; opacity: 0.9; position: relative; z-index: 2; }
-
-        .invoice-box {
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px dashed rgba(255, 255, 255, 0.4);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
             position: relative;
             z-index: 2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s backwards;
         }
 
-        .invoice-box:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(1.02);
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
         }
+
+        .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; position: relative; z-index: 2; letter-spacing: -0.5px; }
+        .header p { font-size: 14px; opacity: 0.95; position: relative; z-index: 2; line-height: 1.5; }
+
+        /* ইনভয়েস আইডি বক্স */
+        .invoice-box {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px dashed rgba(255,255,255,0.5);
+            border-radius: 16px;
+            padding: 12px;
+            margin: -40px auto 0; /* হেডারের উপর ভাসানো */
+            width: 90%;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .invoice-box:active { transform: scale(0.98); }
 
         .invoice-box h2 {
-            font-size: 22px;
             font-family: 'Courier New', monospace;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            font-size: 20px;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 2px;
             word-break: break-all;
         }
-
-        .invoice-box small { font-size: 12px; opacity: 0.8; }
-
-        .details { padding: 30px 25px; }
-
-        .detail-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed #eee;
-        }
-
-        .detail-item:last-child { border-bottom: none; }
-
-        .detail-label {
-            display: flex;
-            align-items: center;
-            color: var(--text-light);
-            font-size: 14px;
-        }
-
-        .detail-label span { margin-left: 8px; }
         
-        .detail-value {
-            font-weight: 700;
-            color: var(--text-dark);
-            font-size: 15px;
-            background: #f0f2f5;
-            padding: 4px 10px;
-            border-radius: 8px;
+        .invoice-box small { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .details { padding: 30px 25px 25px; }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed #e5e7eb;
         }
 
-        /* টাইমার সেকশন */
-        .timer-section {
+        .detail-row:last-of-type { border-bottom: none; }
+
+        .label-group { display: flex; align-items: center; color: var(--text-muted); font-size: 14px; font-weight: 500; }
+        .label-group svg { width: 18px; height: 18px; margin-right: 8px; color: #9ca3af; }
+
+        .value-text { font-weight: 600; color: var(--text-main); font-size: 15px; background: #f9fafb; padding: 4px 8px; border-radius: 6px; }
+
+        /* টাইমার */
+        .timer-container {
+            background: #fff;
+            border: 1px solid #fee2e2;
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
             margin: 25px 0;
-            background: linear-gradient(to right, #fff5f5, #fff0f0);
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #ffeaea;
         }
-
-        .timer-section p { font-size: 13px; color: var(--text-light); margin-bottom: 5px; }
         
-        #countdown {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--accent-color);
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 2px;
-        }
+        .timer-title { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
+        #countdown { font-size: 32px; font-weight: 800; color: #ef4444; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
 
-        /* বাটন স্টাইল */
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
+        /* বাটন গ্রুপ */
+        .actions { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
 
         .btn {
-            flex: 1;
-            padding: 14px;
+            width: 100%;
+            padding: 16px;
             border: none;
             border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            gap: 10px;
             text-decoration: none;
         }
 
         .btn-copy {
-            background: #f0f2f5;
-            color: var(--text-dark);
+            background: #f3f4f6;
+            color: var(--text-main);
         }
-
-        .btn-copy:hover { background: #e4e6eb; }
+        
+        .btn-copy:hover { background: #e5e7eb; }
 
         .btn-bot {
-            background: linear-gradient(90deg, #0088cc, #00c6ff);
+            background: var(--primary-color);
             color: white;
-            box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-bot:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 198, 255, 0.4);
+            box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
+            background: var(--primary-hover);
         }
 
-        .btn svg { width: 20px; height: 20px; margin-right: 8px; }
-
-        .instructions {
-            margin-top: 25px;
-            background: #eef2ff;
-            color: #4338ca;
+        /* ইনস্ট্রাকশন বক্স */
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 8px;
+            margin-top: 25px;
             font-size: 13px;
+            color: #1e40af;
             line-height: 1.6;
-            border-left: 4px solid #4338ca;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 12px;
-            color: #999;
-            padding-bottom: 10px;
         }
 
         /* টোস্ট নোটিফিকেশন */
         .toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #333;
+            background: #1f2937;
             color: white;
             padding: 12px 24px;
             border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            font-size: 14px;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            z-index: 1000;
             display: flex;
             align-items: center;
             gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            pointer-events: none;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        /* আইকন SVG স্টাইল */
-        .icon { width: 18px; height: 18px; stroke-width: 2; }
-        .icon-check { color: #4ade80; }
+        .icon-check { color: #34d399; }
 
     </style>
 </head>
 <body>
+
     <div class="invoice-container">
         <div class="header">
-            <h1>পেমেন্ট সফল হয়েছে</h1>
-            <p>আপনার অর্ডার প্রসেস করতে নিচের ধাপগুলো অনুসরণ করুন</p>
-            
-            <div class="invoice-box" id="copyBox">
-                <h2 id="invoiceNumber">Loading...</h2>
-                <small>আইডি কপি করতে এখানে ক্লিক করুন</small>
+            <div class="success-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </div>
+            <h1>পেমেন্ট সফল হয়েছে!</h1>
+            <p>অর্ডারটি সম্পন্ন করতে আইডি কপি করে বটে পাঠান</p>
         </div>
         
+        <div class="invoice-box" id="copyBox">
+            <h2 id="invoiceNumber">Loading...</h2>
+            <small>কপি করতে ক্লিক করুন</small>
+        </div>
+
         <div class="details">
-            <div class="detail-item">
-                <div class="detail-label">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <div class="detail-row">
+                <div class="label-group">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     <span>তারিখ</span>
                 </div>
-                <span class="detail-value" id="date">-</span>
+                <span class="value-text" id="date">-</span>
             </div>
-            <div class="detail-item">
-                <div class="detail-label">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            <div class="detail-row">
+                <div class="label-group">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
                     <span>প্যাকেজ</span>
                 </div>
-                <span class="detail-value" id="package">-</span>
+                <span class="value-text" id="package">-</span>
             </div>
-            <div class="detail-item">
-                <div class="detail-label">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            <div class="detail-row">
+                <div class="label-group">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                     <span>মূল্য</span>
                 </div>
-                <span class="detail-value" id="amount">-</span>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <span>ইউজার আইডি</span>
-                </div>
-                <span class="detail-value" id="userId">-</span>
+                <span class="value-text" id="amount">-</span>
             </div>
             
-            <div class="timer-section">
-                <p>⏰ পেমেন্ট সময়সীমা বাকি</p>
+            <div class="timer-container">
+                <div class="timer-title">পেমেন্ট সময়সীমা বাকি</div>
                 <div id="countdown">30:00</div>
             </div>
 
-            <div class="action-buttons">
+            <div class="actions">
                 <button class="btn btn-copy" id="copyBtn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    কপি আইডি
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    আইডি কপি করুন
                 </button>
-                <!-- বট লিঙ্ক এখানে দিন -->
-                <a href="#" id="botLink" target="_blank" class="btn btn-bot">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    বটে যান
+                
+                <a href="#" id="botLink" class="btn btn-bot">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                    বটে যান (আইডি সহ)
                 </a>
             </div>
-            
-            <div class="instructions">
-                <strong>📋 নির্দেশাবলী:</strong><br>
-                ১. <strong>Invoice ID</strong> কপি করুন।<br>
-                ২. <strong>বটে যান</strong> বাটনে ক্লিক করুন।<br>
-                ৩. বটে আইডি সেন্ড করলেই ডেলিভারি হবে।
+
+            <div class="info-box">
+                <strong>📝 পরবর্তী ধাপ:</strong><br>
+                ১. "বটে যান" বাটনে ক্লিক করুন।<br>
+                ২. টেলিগ্রাম বট ওপেন হলে <strong>Send</strong> বাটনে চাপুন।
             </div>
-        </div>
-        
-        <div class="footer">
-            <p>© 2025 Proxy Shop | সাপোর্ট: @your_admin_id</p>
         </div>
     </div>
 
-    <!-- টোস্ট নোটিফিকেশন এলিমেন্ট -->
     <div class="toast" id="toast">
-        <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-        <span>আইডি কপি করা হয়েছে!</span>
+        <svg class="icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span id="toastMsg">আইডি কপি হয়েছে!</span>
     </div>
 
     <script>
         // --- কনফিগারেশন ---
-        // এখানে আপনার টেলিগ্রাম বটের ইউজারনেম দিন
         const BOT_USERNAME = "mr_alif_bot"; 
         // ------------------
 
-        // URL থেকে ডাটা পড়া
+        // URL প্যারামিটার হ্যান্ডেল করা
         const params = new URLSearchParams(window.location.search);
-        
         const invoiceId = params.get('invoiceId') || params.get('invoice_id') || "Invoice Not Found";
         const pkg = params.get('package') || "সাধারণ প্যাকেজ";
         const qty = params.get('quantity') || "1";
         const price = params.get('amount') || "0";
         const user = params.get('user') || "Guest";
+        const initialTime = params.get('time');
 
-        // এইচটিএমএল-এ ডাটা বসানো
+        // DOM এ ভ্যালু সেট করা
         document.getElementById('invoiceNumber').innerText = invoiceId;
         document.getElementById('package').innerText = pkg + (qty !== "1" ? ` (x${qty})` : "");
         document.getElementById('amount').innerText = price + " ৳";
-        document.getElementById('userId').innerText = user;
         document.getElementById('date').innerText = new Date().toLocaleDateString('bn-BD');
-
-        // বট লিঙ্ক সেট করা
-        document.getElementById('botLink').href = `https://t.me/${BOT_USERNAME}?start=${invoiceId}`;
-
-        // কপি ফাংশনালিটি (টোস্ট সহ)
-        const copyBox = document.getElementById('copyBox');
+        
+        // বট লিঙ্ক এবং ইভেন্ট হ্যান্ডেলার সেটআপ
+        const botBtn = document.getElementById('botLink');
         const copyBtn = document.getElementById('copyBtn');
+        const copyBox = document.getElementById('copyBox');
         const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
 
-        function copyToClipboard() {
-            const id = document.getElementById('invoiceNumber').innerText;
-            if(id.includes("Not Found")) return;
+        // বট লিঙ্ক তৈরি
+        const botUrl = `https://t.me/${BOT_USERNAME}?start=${invoiceId}`;
+        botBtn.href = botUrl;
+
+        // বট বাটনে ক্লিক করলে আইডি কপি করে রিডাইরেক্ট করা
+        botBtn.addEventListener('click', function(e) {
+            if(!invoiceId.includes("Not Found")) {
+                navigator.clipboard.writeText(invoiceId).then(() => {
+                    showToast("আইডি কপি হয়েছে, বটে পেস্ট করুন!");
+                }).catch(err => {
+                    console.error('Copy failed', err);
+                });
+            }
+        });
+
+        // কপি ফাংশন
+        function copyId() {
+            if(invoiceId.includes("Not Found")) return;
             
-            navigator.clipboard.writeText(id).then(() => {
-                showToast();
-                // বাটন এনিমেশন ফিডব্যাক
-                const originalText = copyBtn.innerHTML;
+            navigator.clipboard.writeText(invoiceId).then(() => {
+                showToast("আইডি কপি হয়েছে!");
                 copyBtn.innerHTML = `
-                    <svg class="icon icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <svg class="icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     কপি হয়েছে
                 `;
                 setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
+                    copyBtn.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        আইডি কপি করুন
+                    `;
                 }, 2000);
             });
         }
 
-        function showToast() {
+        // টোস্ট দেখানোর ফাংশন
+        function showToast(message) {
+            toastMsg.innerText = message;
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
         }
 
-        copyBox.addEventListener('click', copyToClipboard);
-        copyBtn.addEventListener('click', copyToClipboard);
+        // ইভেন্ট লিসেনার
+        copyBox.addEventListener('click', copyId);
+        copyBtn.addEventListener('click', copyId);
 
-        // কাউন্টডাউন টাইমার
-        let time = 30 * 60;
-        const timerObj = document.getElementById('countdown');
-        
-        // টাইমার রিসেট বা কাস্টম সময় সেট করতে চাইলে URL param থেকে নেওয়া যেতে পারে
-        const customTime = params.get('time');
-        if(customTime && !isNaN(customTime)) {
-            time = parseInt(customTime) * 60;
+        // টাইমার লজিক
+        let time = 30 * 60; // 30 মিনিট ডিফল্ট
+        if(initialTime && !isNaN(initialTime)) {
+            time = parseInt(initialTime) * 60;
         }
 
+        const timerDisplay = document.getElementById('countdown');
         setInterval(() => {
             let mins = Math.floor(time / 60);
             let secs = time % 60;
-            
-            // বাংলা সংখ্যায় কনভার্ট করার অপশন (ঐচ্ছিক, এখানে ইংরেজি রাখা হয়েছে রিডেবিলিটির জন্য)
-            timerObj.innerText = `${mins < 10 ? '0'+mins : mins}:${secs < 10 ? '0'+secs : secs}`;
-            
+            // ফরম্যাটিং
+            mins = mins < 10 ? '0' + mins : mins;
+            secs = secs < 10 ? '0' + secs : secs;
+            timerDisplay.innerText = `${mins}:${secs}`;
+
             if(time > 0) {
                 time--;
             } else {
-                timerObj.innerText = "00:00";
-                timerObj.style.color = "gray";
+                timerDisplay.style.color = "#9ca3af";
+                timerDisplay.innerText = "00:00";
             }
         }, 1000);
     </script>
